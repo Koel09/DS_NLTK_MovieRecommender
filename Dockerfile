@@ -21,4 +21,5 @@ USER appuser
 
 EXPOSE 8000
 
+ENV FLASK_ENV=production
 CMD ["python", "app.py"]
