@@ -5,19 +5,24 @@ import os
 
 app = Flask(__name__)
 
-# -------------------------------------------------------------
-# Load or download pickle and index files directly from GitHub (RAW URLs)
-# -------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Load or download pickle and index files directly from GitHub (RAW URLs) logic
+# -----------------------------------------------------------------------------
 
 def load_or_download(url, filename):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+    headers = {"User-Agent": "Mozilla/5.0"}  # prevents GitHub 403 inside Docker
+
     if not os.path.exists(filename):
         print(f"Downloading {filename} from GitHub...")
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
-        with open(filename, 'wb') as f:
+
+        with open(filename, "wb") as f:
             f.write(response.content)
 
-    with open(filename, 'rb') as f:
+    with open(filename, "rb") as f:
         return pickle.load(f)
 
 
@@ -107,5 +112,10 @@ def recommend():
         recommended_movie_posters=recommended_movie_posters
     )
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=8000,
+        debug=False,
+        use_reloader=False
+    )
