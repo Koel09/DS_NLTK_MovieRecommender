@@ -49,9 +49,9 @@ A **recommender system** is an algorithm that suggests items to users based on d
 
 ## 📘 Project Breakdown
 
-You’ll be working with two main files:
+I worked with two main files:
 
-1. `analysis.ipynb`: For data loading, cleaning, feature extraction, modeling, evaluation.
+1. `MovieRecommender_NLTK.ipynb`: For data loading, cleaning, feature extraction, modeling, evaluation.
 2. `app.py`: For deploying your model with Flask.
 
 ---
@@ -59,18 +59,22 @@ You’ll be working with two main files:
 ## 🗂 Folder Structure
 
 ```
-movie-recommender/
-├── analysis.ipynb
+DS_NLTK_MovieRecommender/
+├── MovieRecommender_NLTK.ipynb
 ├── app.py
 ├── requirements.txt
-├── model.pkl
-├── similarity.pkl
 ├── Dockerfile
+├── .gitignore
+├── README.md
 ├── templates/
     └── index.html
 └── data/
-    ├── tmdb_5000_credits
-    └── tmdb_5000_movies
+    ├── tmdb_5000_credits.csv
+    └── tmdb_5000_movies.csv
+└── model/
+    ├── movies_tfidf.pkl
+    ├──similarity_tfidf.pkl
+    └──tfidf.pkl
 ```
 
 ---
@@ -86,9 +90,9 @@ movie-recommender/
 
 ---
 
-## 🧪 TASKS – Predictive Modelling in `analysis.ipynb`
+## 🧪 TASKS – Predictive Modelling in `MovieRecommender_NLTK.ipynb`
 
-Use Jupyter Notebook (`analysis.ipynb`) to complete the following steps:
+Use Jupyter Notebook (`MovieRecommender_NLTK.ipynb`) to complete the following steps:
 
 ### ✅ Step 1: Load and Explore the Data
 - Load `movies.csv`
@@ -103,8 +107,8 @@ Use Jupyter Notebook (`analysis.ipynb`) to complete the following steps:
 
 ```python
 import pickle
-pickle.dump(movies, open('model.pkl', 'wb'))
-pickle.dump(similarity, open('similarity.pkl', 'wb'))
+pickle.dump(movies, open('movies_tfidf.pkl', 'wb'))
+pickle.dump(similarity, open('similarity_tfidf.pkl', 'wb'))
 ```
 
 ### ✅ Step 4: Test Recommendations
@@ -126,7 +130,7 @@ Use simple average or custom logic
 
 ---
 ## Move to Deployment – app.py
-Once you're happy with the model in the notebook:
+Once happy with the model in the notebook:
 
 - Transfer working functions into app.py
 
@@ -140,21 +144,21 @@ Use the existing structure in app.py:
 ---
 ## Make It Production-Ready with Docker  
 
-After testing your app locally, Dockerise it using Dockerfile.  
+After testing app locally, Dockerise it using Dockerfile.  
 ---
 ## ▶ How to Run
 
 ### 🔧 Build Docker Image:
 ```bash
-docker build -t movie-recommender .
+docker build --no-cache -t movie-recommender https://github.com/Koel09/DS_NLTK_MovieRecommender.git
 ```
 
 ### ▶ Run the Container:
 ```bash
-docker run -p 5000:5000 movie-recommender
+docker run -p 8000:8000 movie-recommender 
 ```
 
-Then go to `http://localhost:5000` in your browser!
+Then go to `http://127.0.0.1:8000/` or `http://172.17.0.2:8000` in your browser!
 
 ---
 
@@ -168,16 +172,14 @@ Then go to `http://localhost:5000` in your browser!
 
 
 ## 📅 Submission Instructions
-
-- ✅ **Deadline:
 - ✅ **What to Submit:** A link to your GitHub repository containing:
-  - `analysis.ipynb`, `app.py`, `model.pkl`, `similarity.pkl`
+  - `MovieRecommender_NLTK.ipynb`, `app.py`, `movies_tfidf.pkl`, `similarity_tfidf.pkl`
   - Any additional data files or templates
   - *Optional:* `Dockerfile` and instructions in `README.md`
 
 ---
 
-📝 **Please make sure your repository:**
+📝 **Please make sure repository:**
 
 - Has clear file structure  
 - Is easy to run and test locally
